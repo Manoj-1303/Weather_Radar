@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import SearchBar from './components/SearchBar';
 import MainWeather from './components/MainWeather';
 import MetricCard from './components/MetricCard';
@@ -19,26 +20,26 @@ function App() {
     setError('');
 
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`
       );
-      const data = await response.json();
 
-      if (data.cod !== 200) {
-        setError(data.message);
-        setWeatherData(null);
-      } else {
-        setWeatherData(data);
-      }
+      setWeatherData(response.data);
+
     } catch (err) {
-      setError("Failed to fetch data.");
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Failed to fetch data.");
+      }
+      setWeatherData(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-[#1a3a30] to-gray-900 flex flex-col items-center justify-center p-4 font-['Caveat'] text-white">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-[#1a3a30] to-gray-900 flex flex-col items-center justify-center p-4 font-['Bricolage_Grotesque'] text-white">
       <div className="bg-[#123626]/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 w-full max-w-5xl shadow-[0_0_50px_rgba(45,185,115,0.15)]">
         <div className="mb-8 pl-2">
           <h1 className="text-4xl underline font-semibold text-[#e2e8b5] tracking-wide mb-2 ">
