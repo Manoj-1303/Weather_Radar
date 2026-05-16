@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Header from './components/Header'
 import SearchBar from './components/SearchBar';
 import MainWeather from './components/MainWeather';
 import MetricCard from './components/MetricCard';
@@ -39,7 +40,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-900 via-[#1a3a30] to-gray-900 flex flex-col items-center justify-center p-4 font-['Bricolage_Grotesque'] text-white">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-[#1a3a30] to-gray-900 flex flex-col items-center justify-between p-4 font-['Bricolage_Grotesque'] text-white">
+      <Header />
       <div className="bg-[#123626]/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 w-full max-w-5xl shadow-[0_0_50px_rgba(45,185,115,0.15)]">
         <div className="mb-8 pl-2">
           <h1 className="text-4xl underline font-semibold text-[#e2e8b5] tracking-wide mb-2 ">

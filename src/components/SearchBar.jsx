@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 function SearchBar({ onSearch, isLoading }) {
   const [searchInput, setSearchInput] = useState('');
+  
+  const [isBursting, setIsBursting] = useState(false);
 
   const popularCities = ['Chennai', 'Bangalore', 'Delhi', 'Hyderabad', 'London', 'Dubai'];
 
@@ -13,6 +15,9 @@ function SearchBar({ onSearch, isLoading }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchInput.trim()) {
+      setIsBursting(true);
+      setTimeout(() => setIsBursting(false), 300);
+
       onSearch(searchInput);
     }
   };
@@ -52,18 +57,25 @@ function SearchBar({ onSearch, isLoading }) {
             className="w-full relative z-10 bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/50 outline-none focus:border-[#52d381]/50 transition-colors disabled:opacity-70"
           />
         </div>
+        <div className="relative inline-block">
+          
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`bg-linear-to-b from-[#52d381]/20 to-black/50 border border-[#52d381]/30 hover:border-[#52d381]/60 px-8 py-3 rounded-xl font-medium transition-all duration-200 shadow-lg relative z-10 ${isBursting ? 'scale-95 border-[#52d381]' : 'scale-100'}`}
+          >
+            {isLoading ? (
+              <span className="text-[#52d381] animate-pulse">Scanning...</span>
+            ) : (
+              'Get Report'
+            )}
+          </button>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="bg-linear-to-b from-[#52d381]/20 to-black/50 border border-[#52d381]/30 hover:border-[#52d381]/60 px-8 py-3 rounded-xl font-medium transition-all shadow-lg"
-        >
-          {isLoading ? (
-            <span className="text-[#52d381] animate-pulse">Scanning...</span>
-          ) : (
-            'Get Report'
+          {isBursting && (
+            <div className="absolute inset-0 rounded-xl border-2 border-[#52d381]/60 bg-[#52d381]/20 animate-ping pointer-events-none z-0"></div>
           )}
-        </button>
+
+        </div>
       </form>
 
       <div className="flex flex-wrap items-center gap-2 mt-4 pl-1">
